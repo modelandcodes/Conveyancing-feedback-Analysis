@@ -460,22 +460,27 @@
     const costQualityCtx = document.getElementById('costQualityChart').getContext('2d');
     const scatterData = [];
     // Generate more realistic sample data points for scatter plot
-    for (let i = 0; i < 50; i++) { // Increased number of data points
-        const cost = Math.random() * 1800 + 200; // Cost range from $200 to $2000
-        let satisfaction;
-        // Simulate a sweet spot for satisfaction
-        if (cost 800 =< 850) { // Lower cost, potentially lower satisfaction
-            satisfaction = Math.random() * 2 + 1.5; // Satisfaction: 1.5 - 3.5
-        } else if (cost > 1500) { // Higher cost, diminishing returns or higher expectations
-             satisfaction = Math.random() * 1.5 + 2.5; // Satisfaction: 2.5 - 4.0
-        } else if (cost > 800 && cost < 1300) { // Sweet spot
-            satisfaction = Math.random() * 1 + 4; // Satisfaction: 4.0 - 5.0
-        }
-         else { // Mid-range costs
-             satisfaction = Math.random() * 2 + 2.5; // Satisfaction: 2.5 - 4.5
-        }
-        scatterData.push({x: cost, y: Math.max(1, Math.min(satisfaction, 5))}); // Clamp satisfaction between 1 and 5
+   for (let i = 0; i < 50; i++) {
+    const cost = Math.random() * 1800 + 200; // Cost range from $200 to $2000
+    
+    // Only include data where cost is greater than 800
+    if (cost <= 800) continue;
+
+    let satisfaction;
+
+    if (cost >= 800 && cost <= 850) {
+        satisfaction = Math.random() * 2 + 1.5; // Satisfaction: 1.5 - 3.5
+    } else if (cost > 1500) {
+        satisfaction = Math.random() * 1.5 + 2.5; // Satisfaction: 2.5 - 4.0
+    } else if (cost > 800 && cost < 1300) {
+        satisfaction = Math.random() * 1 + 4; // Satisfaction: 4.0 - 5.0
+    } else {
+        satisfaction = Math.random() * 2 + 2.5; // Satisfaction: 2.5 - 4.5
     }
+
+    // Clamp satisfaction between 1 and 5
+    scatterData.push({ x: cost, y: Math.max(1, Math.min(satisfaction, 5)) });
+}
 
     new Chart(costQualityCtx, {
         type: 'scatter',
